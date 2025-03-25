@@ -1,4 +1,5 @@
 import sequelize from '../config/database.js';
+// make sure to import all table js files & create them pretty please
 import User from './user.js';
 
 const syncModels = async () => {
