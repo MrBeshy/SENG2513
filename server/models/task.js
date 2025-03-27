@@ -2,10 +2,11 @@ import { DataTypes } from 'sequelize';
 
 import sequelize from '../config/database.js';
 
-const User = sequelize.define('user', {
-  username: DataTypes.STRING,
-  email: DataTypes.STRING,
-  birthday: DataTypes.DATE,
+const Task = sequelize.define('task', {
+  title: DataTypes.STRING,
+  description: DataTypes.TEXT,
+  priority: DataTypes.ENUM('low','medium','high'),
+  status: DataTypes.ENUM('to-do', 'in-progress', 'completed')
 });
 
 User.prototype.toJSON = function() {
@@ -14,5 +15,5 @@ User.prototype.toJSON = function() {
   return values;
 };
 
-export default User;
-export{ User };
+export default Task;
+export{ Task };
