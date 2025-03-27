@@ -2,15 +2,14 @@ import { DataTypes } from 'sequelize';
 
 import sequelize from '../config/database.js';
 
-const User = sequelize.define('project', {
+const Project = sequelize.define('project', {
   name: DataTypes.STRING,
   description: DataTypes.TEXT,
   dueDate: DataTypes.DATE,
 });
 
-User.prototype.toJSON = function() {
+Project.prototype.toJSON = function() {
   const values = { ...this.get() };
-  delete values.password; // Don't expose password
   return values;
 };
 

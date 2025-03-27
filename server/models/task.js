@@ -9,9 +9,8 @@ const Task = sequelize.define('task', {
   status: DataTypes.ENUM('to-do', 'in-progress', 'completed')
 });
 
-User.prototype.toJSON = function() {
+Task.prototype.toJSON = function() {
   const values = { ...this.get() };
-  delete values.password; // Don't expose password
   return values;
 };
 
