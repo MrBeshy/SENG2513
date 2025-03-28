@@ -12,7 +12,7 @@ root.render(
   <React.StrictMode>
     <div>
       <header>
-        <h1>React App</h1>
+        <h1>To Do List Application</h1>
         <div></div>
       </header>
       <BrowserRouter>
