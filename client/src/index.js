@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
-import App from './App';
+//import App from './App';
 import reportWebVitals from './reportWebVitals';
+// changed <App />, and changed import
+import TodoList from './TodoList'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,7 +16,7 @@ root.render(
         <div></div>
       </header>
       <BrowserRouter>
-        <App />
+        <TodoList />
       </BrowserRouter>
       <footer>
         <p>&copy; 2025 Your Project Name</p>
