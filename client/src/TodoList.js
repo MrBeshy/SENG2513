@@ -41,8 +41,8 @@ const TodoList = () => {
                 <div className="projects-container">
                 {project.map((data) => (
                     <p className="project-instance" key={data.id}><a className="project-name" href="emptylink">{data.name}</a>
-                    <button className="edit-project">edit</button>
-                    <button className="delete_icon.jpg">delete</button></p>
+                    <button className="edit-project"><img src="edit icon.png" alt="Edit"></img></button>
+                    <button className="delete-project"><img src="delete_icon.jpg" alt="Delete"></img></button></p>
                 ))}
                 </div>
 
