@@ -37,14 +37,14 @@ const TodoList = () => {
         <>
             <div>
                 <h2 className="page-title">Projects: </h2>
-                
-                <button id="add-project">Add Project</button>
 
                 <div className="projects-container">
                 {project.map((data) => (
                     <p className="project-instance" key={data.id}><a className="project-name" href="emptylink">{data.name}</a><button className="edit-project">edit</button><button className="delete-project">delete</button></p>
                 ))}
                 </div>
+
+                <button id="add-project">Add Project</button>
             </div>
         </>
     );
