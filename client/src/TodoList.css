@@ -4,9 +4,13 @@
 
 #add-project {
     background-color: lightgray;
-    border: 2px solid black;
+    border: 2px solid gray;
     margin: 5px;
     cursor: pointer;
+}
+
+#add-project:hover {
+    border-color: black;
 }
 
 .projects-container {
