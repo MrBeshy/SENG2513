@@ -35,17 +35,14 @@ const TodoList = () => {
 
     return(
         <>
-            <div className="app-name">
-                <h1>To-Do List App</h1>
-            </div>
             <div>
-                <p>Projects: </p>
+                <h2 className="page-title">Projects: </h2>
                 
                 <button id="add-project">Add Project</button>
 
                 <div className="projects-container">
                 {project.map((data) => (
-                    <p key={data.id}>{data.name}</p>
+                    <p className="project-instance" key={data.id}><a className="project-name" href="emptylink">{data.name}</a><button className="edit-project">edit</button><button className="delete-project">delete</button></p>
                 ))}
                 </div>
             </div>
@@ -54,3 +51,4 @@ const TodoList = () => {
 }
 
 export default TodoList;
+// project for now will be just an empty link

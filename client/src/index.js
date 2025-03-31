@@ -11,15 +11,15 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <div>
-      <header>
-        <h1>To Do List Application</h1>
+      <header className="page-top">
+        <h1>To Do List App</h1>
         <div></div>
       </header>
       <BrowserRouter>
         <TodoList />
       </BrowserRouter>
       <footer>
-        <p>&copy; 2025 Your Project Name</p>
+        <p>&copy; 2025 To-Do List Application</p>
       </footer>
     </div>
 
