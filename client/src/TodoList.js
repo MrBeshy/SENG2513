@@ -35,7 +35,7 @@ const TodoList = () => {
 
     return(
         <>
-            <div>
+            <div className="projects-page">
                 <h2 className="page-title">Projects: </h2>
 
                 <div className="projects-container">

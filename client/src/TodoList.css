@@ -1,8 +1,10 @@
 .page-title {
     color: #000000;
+    margin-left: 10px;
 }
 
 #add-project {
+    display: inline-block;
     background-color: lightgray;
     border: 2px solid gray;
     margin: 5px;
@@ -14,9 +16,11 @@
 }
 
 .projects-container {
+    display: inline-block;
     border: 5px solid black;
     width: 410px;
     border-radius: 5px;
+    margin-left: 10px;
 }
 
 .project-instance {
@@ -35,7 +39,7 @@
 
 .project-name {
     color: blue;
-    margin-right: 240px;
+    margin-right: 10px;
 }
 
 
