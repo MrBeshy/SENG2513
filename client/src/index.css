@@ -13,6 +13,6 @@ code {
 }
 
 .page-top {
-  background-color: lightblue;
-  height: 50px;
+  background-image: linear-gradient(lightblue,lightskyblue);
+  height: 60px;
 }

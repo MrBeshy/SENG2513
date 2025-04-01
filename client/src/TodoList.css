@@ -15,7 +15,7 @@
 
 .projects-container {
     border: 5px solid black;
-    width: 500px;
+    width: 410px;
     border-radius: 5px;
 }
 
@@ -31,6 +31,11 @@
     margin-left: 5px;
     margin-right: 5px;
     cursor: pointer;
+}
+
+.project-name {
+    color: blue;
+    margin-right: 240px;
 }
 
 
