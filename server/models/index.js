@@ -11,6 +11,26 @@ const syncModels = async () => {
     } catch (error) {
       console.error('Error synchronizing models:', error);
     }
+
+    // Generate 10 projects
+    const project = [];
+    for (let i = 1; i <= 10; i++) {
+        project.push({
+            id: `${i}`,
+            name: `project ${i}`,
+            // Add other properties as needed
+        });
+    }
+
+    // Insert projects into the table
+    Project.bulkCreate(project)
+        .then(() => {
+            console.log('Projects inserted successfully.');
+        })
+        .catch((error) => {
+            console.error('Error inserting projects:', error);
+        });
+
     // Generate 10 users
     const users = [];
     for (let i = 1; i <= 10; i++) {
@@ -29,10 +49,10 @@ const syncModels = async () => {
         .catch((error) => {
             console.error('Error inserting users:', error);
         });
-
+        
   };
-  
- export {
-    sequelize, User, syncModels
+
+  export {
+    sequelize, Project, syncModels
   };
   
