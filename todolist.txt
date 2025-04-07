@@ -1,0 +1,12 @@
+server/models/Project.js
+    -make name and date attributres required.
+client/src
+    -make the add UI for project.
+    -make the edit UI for project.
+    -make the delete UI for project.
+    -possibly add the 'view' UI for projects.
+client/public and client/src
+    -change background to be light blue gradient in CSS.
+    -change 'add project' button to 'add' and reposition it to the top of the page next to 'projects'.
+    -change alignment of 'project name', 'edit' button, and 'delete' button.
+    -name align left, edit / delete align right.
