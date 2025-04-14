@@ -16,7 +16,7 @@
 }
 
 .projects-container {
-    display: inline-block;
+    /*justify-content: center;*/
     border: 5px solid black;
     width: 410px;
     border-radius: 5px;
@@ -24,6 +24,9 @@
 }
 
 .project-instance {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border: 2px solid gray;
     width: 400px;
     margin: 4px;
@@ -32,14 +35,19 @@
 }
 
 .edit-project, .delete-project {
+    
     margin-left: 5px;
     margin-right: 5px;
     cursor: pointer;
 }
 
 .project-name {
+    
     color: blue;
     margin-right: 10px;
 }
 
+.projects-page {
+    background-color: whitesmoke;
+}
 

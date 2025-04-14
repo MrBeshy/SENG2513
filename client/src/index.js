@@ -10,8 +10,8 @@ import TodoList from './TodoList'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <div>
-      <header className="page-top">
+    <div className="page-top">
+      <header>
         <h1>To Do List App</h1>
         <div></div>
       </header>
