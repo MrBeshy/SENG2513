@@ -2,6 +2,8 @@
 
 import "./TodoList.css";
 import React from "react";
+import { Link, Routes, Route } from "react-router-dom";
+import AddProject from "./AddProject";
 import { useEffect, useState } from "react";
 
 const TodoList = () => {
@@ -38,6 +40,9 @@ const TodoList = () => {
             <div className="projects-page">
                 <h2 className="page-title">Projects: </h2>
 
+                <button id="add-project"><Link to="/AddProject">Add Project</Link></button>
+                <Routes><Route path="/AddProject" element={<AddProject />}/></Routes>
+
                 <div className="projects-container">
                     {Array.isArray(project) && project.length > 0 ? (
                         project.map((data) => (
@@ -48,8 +53,6 @@ const TodoList = () => {
                         <p>No projects found.</p>
                     )}
                 </div>
-
-                <button id="add-project">Add Project</button>
             </div>
         </>
     );

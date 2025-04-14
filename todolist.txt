@@ -1,6 +1,7 @@
 server/models/Project.js
     -make name and date attributres required.
 client/src
+    -TOP PRIORITY, MAKE A NAV BAR.
     -make the add UI for project.
     -make the edit UI for project.
     -make the delete UI for project.

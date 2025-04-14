@@ -4,7 +4,7 @@
 }
 
 #add-project {
-    display: inline-block;
+    /*display: inline-block;*/
     background-color: lightgray;
     border: 2px solid gray;
     margin: 5px;
