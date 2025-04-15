@@ -9,6 +9,7 @@ const PORT = 3001;
 import User from './models/user.js';
 // added project
 import Project from "./models/project.js";
+import Task from "./models/task.js";
 import { syncModels } from "./models/index.js";
 
 syncModels();
