@@ -1,6 +1,6 @@
 // server/index.js
 import express from "express";
-import fetchMoonPhase from './api/moon-api.js';
+
 import company from "./api/json/company.json" with {type: "json"}; // Importing JSON data from a file
 const app = express();
 import cors from "cors"; // CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
