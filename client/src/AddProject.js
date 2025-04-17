@@ -2,7 +2,7 @@ import "./AddProject.css";
 import React from "react";
 import Projects from "./Projects";
 import { Link, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const AddProject = () => {
     const [formData, setFormData] = useState({
@@ -13,6 +13,8 @@ const AddProject = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState('');
+    const [submitSuccess, setSubmitSuccess] = useState(false);
+    const linkRef = useRef(null);
 
     const handleChange = (e) => {
         const { name, value} = e.target;
@@ -21,6 +23,14 @@ const AddProject = () => {
             [name]: value,
         });
     };
+
+    useEffect(() => {
+        if (submitSuccess && linkRef.current) {
+            setTimeout(() => {
+                linkRef.current.click();
+            }, 1000); // Delay for 1 second so user can see success message
+        }
+    }, [submitSuccess]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -41,8 +51,9 @@ const AddProject = () => {
             const data = await response.json();
 
             if(response.ok) {
-                setMessage('User created successfully!');
+                setMessage('Project created successfully!');
                 setFormData({name: '', description: '', dueDate: ''});
+                setSubmitSuccess(true);
             } else {
                 setMessage(`Error: ${data.message || 'Something went wrong'}`);
             }
@@ -66,6 +77,9 @@ const AddProject = () => {
                         {isLoading ? 'Saving...' : 'Save'}
                     </button>
                     <button id="cancel"><Link to="/Projects">Cancel</Link></button>
+
+                    <Link to="/Projects" ref={linkRef} style={{ display: 'none' }}>Navigate</Link>
+
                 <Routes><Route path="/Projects" element={<Projects />}/></Routes>
                 </form>
             </div>
