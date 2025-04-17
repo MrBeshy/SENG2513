@@ -17,6 +17,9 @@ const ToDoList =() => {
                     <Route path="/project/:id" element={<ProjectInstance />} />
                 </Routes>
             </div>
+
+                <button id="add-project">Add Project</button>
+            {/* </div> */}
         </>
     );
 };
