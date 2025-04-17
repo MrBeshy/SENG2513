@@ -4,7 +4,6 @@
 }
 
 #add-project {
-    /*display: inline-block;*/
     background-color: lightgray;
     border: 2px solid gray;
     margin: 5px;
@@ -16,7 +15,6 @@
 }
 
 .projects-container {
-    /*justify-content: center;*/
     border: 5px solid black;
     width: 410px;
     border-radius: 5px;
@@ -50,4 +48,6 @@
 .projects-page {
     background-color: whitesmoke;
 }
+
+
 

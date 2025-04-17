@@ -23,6 +23,40 @@ app.get("/api/project", async (req, res) => {
   return res.json(project);
 });
 
+app.post('/api/project', async (req, res) => {
+  console.log('Api Code:  ',req.body);
+  try {
+    const { name, description, dueDate } = req.body;
+
+    if (!name || !description || !dueDate) {
+      return res.status(400).json({ message: 'Name, description, and due date are required'});
+    }
+
+    const newProject = await Project.create({
+      name,
+      description,
+      dueDate
+    });
+
+    res.status(201).json({
+      message: 'Project created successfully',
+      project: newProject
+    });
+
+  } catch (error) {
+
+    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({
+        message: 'Validation error',
+        errors:error.erros.map(e => ({ field: e.path, message: e.message }))
+      });
+    }
+
+    console.error('Error creating project:', error);
+    res.status(500).json({message: 'An error occurred while creating the user'});
+  }
+});
+
 app.get("/api/user", async (req, res) => {
   // Find all users
     const users = await User.findAll();
