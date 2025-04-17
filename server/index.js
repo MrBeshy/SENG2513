@@ -1,4 +1,5 @@
 // server/index.js
+
 import express from "express";
 
 import company from "./api/json/company.json" with {type: "json"}; // Importing JSON data from a file
@@ -85,6 +86,7 @@ app.get("/api/user", async (req, res) => {
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 // New endpoint to fetch moon phase data
+/*
 app.get("/api/moon-phase", async (req, res) => {
   const { lat, lon } = req.query;
 
@@ -95,5 +97,5 @@ app.get("/api/moon-phase", async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Failed to fetch moon phase data' });
   }
-});
+});*/
 
