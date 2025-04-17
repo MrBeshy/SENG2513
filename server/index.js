@@ -31,8 +31,8 @@ app.post('/api/project', async (req, res) => {
   try {
     const { name, description, dueDate } = req.body;
 
-    if (!name || !description || !dueDate) {
-      return res.status(400).json({ message: 'Name, description, and due date are required'});
+    if (!name || !dueDate) {
+      return res.status(400).json({ message: 'Name and due date are required'});
     }
 
     const newProject = await Project.create({
@@ -57,6 +57,22 @@ app.post('/api/project', async (req, res) => {
 
     console.error('Error creating project:', error);
     res.status(500).json({message: 'An error occurred while creating the user'});
+  }
+});
+
+app.get("/api/project/:id", async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    const project = await Project.findByPk(projectId);
+    
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+    
+    return res.json(project);
+  } catch (error) {
+    console.error('Error fetching project:', error);
+    res.status(500).json({ message: 'An error occurred while fetching the project' });
   }
 });
 

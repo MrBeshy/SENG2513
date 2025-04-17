@@ -46,7 +46,7 @@ const Projects = () => {
                 <div className="projects-container">
                     {Array.isArray(project) && project.length > 0 ? (
                         project.map((data) => (
-                            <p className="project-instance" key={data.id}><a className="project-name" href="emptylink">{data.name}</a>
+                            <p className="project-instance" key={data.id}><Link to={`/project/${data.id}`} className="project-name">{data.name}</Link>
                             <div className="project-functions">
                                 <button className="edit-project"> <img src="edit-line.png" alt="edit"></img> </button>
                                 <button className="delete-project"> <img src="close-line.png" alt="delete"></img> </button></div>

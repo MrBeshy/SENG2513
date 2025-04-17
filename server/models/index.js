@@ -16,9 +16,9 @@ const syncModels = async () => {
     const project = [];
     for (let i = 1; i <= 10; i++) {
         project.push({
-            id: `${i}`,
-            name: `project ${i}`,
-            // Add other properties as needed
+            name: `Project ${i}`,
+            description: `This is a description for project ${i}. It contains details about what this project entails.`,
+            dueDate: new Date(Date.now() + (i * 7 * 24 * 60 * 60 * 1000)), // Due date i weeks from now
         });
     }
 
