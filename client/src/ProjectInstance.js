@@ -1,4 +1,4 @@
-//import "./ProjectInstance.css";
+import "./ProjectInstance.css";
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -11,32 +11,44 @@ const ProjectInstance = () => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedName, setEditedName] = useState("");
+    const [tasks, setTasks] = useState([]);
     const [editedDescription, setEditedDescription] = useState("");
     const [editedDueDate, setEditedDueDate] = useState("");
 
     useEffect(() => {
         // Fetch the specific project by ID
-        fetch(`/api/project/${id}`)
-        .then((res) => {
-            console.log("Response status:", res.status);
-            if (!res.ok) {
-                throw new Error(`HTTP error! Status: ${res.status}`);
+        const fetchProjectAndTask = async () => {
+            try {
+
+                // Fetch project
+                const projectRes = await fetch(`/api/project/${id}`);
+                if(!projectRes.ok) {
+                    throw new Error(`HTTP error! Status: ${projectRes.status}`);
+                }
+                const projectData = await projectRes.json();
+                setProject(projectData);
+                setEditedName(projectData.name);
+                setEditedDescription(projectData.description);
+                setEditedDueDate(projectData.dueDate);
+                setLoading(false);
+
+                // Fetch task for specific project
+                 const tasksRes = await fetch(`/api/project/${id}/tasks`);
+                 if(!tasksRes.ok) {
+                    throw new Error(`HTTP error fetching tasks! Status: ${tasksRes.status}`);
+                 }
+                 const tasksData = await tasksRes.json();
+                 setTasks(tasksData);
+
+                 setLoading(false);
+            } catch (error) {
+                setError(error.message);
+                setLoading(false);
             }
-            return res.json();
-        })
-        .then((data) => {
-            console.log("Fetched project data:", data);
-            setProject(data);
-            setEditedName(data.name);
-            setEditedDescription(data.description);
-            setEditedDueDate(data.dueDate);
-            setLoading(false);
-        })
-        .catch((error) => {
-            setError(error.message);
-            setLoading(false);
-        });
-    }, [id]); // Re-run when ID changes
+        };
+
+        fetchProjectAndTask();
+    },[id]); // Re-runs when the ID changes
 
     const handleEditClick = () => {
         setIsEditing(true);
@@ -81,9 +93,34 @@ const ProjectInstance = () => {
             });
     };
 
+    const sortByPriority = (tasks) => {
+        const priorityOrder = {
+          'high': 3,
+          'medium': 2,
+          'low': 1
+        };
+        
+        return [...tasks].sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority]);
+      };
+      
+
+    const todoTasks = sortByPriority(tasks.filter(task => task.status === 'to-do'));
+    const inProgressTasks = sortByPriority(tasks.filter(task => task.status === 'in-progress'));
+    const completedTasks = sortByPriority(tasks.filter(task => task.status === 'completed'));
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
     if (!project) return <div>Project not found</div>;
+
+    const renderTask = (task) => (
+        <div className="task-item" key={task.id}>
+            <h4>{task.title}</h4>
+            <p>{task.description}</p>
+            <span className={`priority priority-${task.priority}`}>
+                {task.priority}
+            </span>
+        </div>
+    );
 
     return(
         <>
@@ -94,6 +131,7 @@ const ProjectInstance = () => {
                             type="text"
                             value={editedName}
                             onChange={(e) => setEditedName(e.target.value)}
+                            required
                         />
                     ) : (
                         `Project: ${project.name}`
@@ -119,6 +157,7 @@ const ProjectInstance = () => {
                                 type="date"
                                 value={editedDueDate.slice(0,10)}
                                 onChange={(e) => setEditedDueDate(e.target.value)}
+                                required
                             />
                         ) : (
                             new Date(project.dueDate).toLocaleDateString()
@@ -140,10 +179,51 @@ const ProjectInstance = () => {
                 <h3>Tasks:</h3>
                 {/* You can add tasks display here once you implement that feature */}
                 <div className="tasks-container">
-                    <p>No tasks found for this project.</p>
+                    {tasks.length === 0 ? (
+                        <p>No tasks found for this project.</p>
+                    ) : (
+                        <>
+                            <div className="task-column">
+                                <div className="button-and-h4">
+                                    <h4>To Do</h4>
+                                    <button className="add-task-btn">Add Task</button>
+                                </div>
+                                
+                                <div className="incomplete-tasks">
+                                    {todoTasks.length > 0 ? (
+                                        todoTasks.map(task => renderTask(task))
+                                    ) : (
+                                        <p>No tasks to do</p>
+                                    )}
+                                </div>
+                            </div>
+                            
+                            <div className="task-column">
+                                <h4>In Progress</h4>
+                                <div className="inprogress-tasks">
+                                    {inProgressTasks.length > 0 ? (
+                                        inProgressTasks.map(task => renderTask(task))
+                                    ) : (
+                                        <p>No tasks in progress</p>
+                                    )}
+                                </div>
+                            </div>
+                            
+                            <div className="task-column">
+                                <h4>Completed</h4>
+                                <div className="complete-tasks">
+                                    {completedTasks.length > 0 ? (
+                                        completedTasks.map(task => renderTask(task))
+                                    ) : (
+                                        <p>No completed tasks</p>
+                                    )}
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </div>
                 
-                <Link to="/" className="back-link">Back to Projects</Link>
+                <button><Link to="/" className="back-link">Back to Projects</Link></button>
             </div>
         </>
     );

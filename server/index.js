@@ -57,7 +57,7 @@ app.post('/api/project', async (req, res) => {
     }
 
     console.error('Error creating project:', error);
-    res.status(500).json({message: 'An error occurred while creating the user'});
+    res.status(500).json({message: 'An error occurred while creating the project'});
   }
 });
 
@@ -76,6 +76,62 @@ app.get("/api/project/:id", async (req, res) => {
     res.status(500).json({ message: 'An error occurred while fetching the project' });
   }
 });
+
+app.get("/api/project/:id/tasks", async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    const tasks = await Task.findAll({
+      where: { projectId: projectId },
+      order: [
+        ['priority', 'DESC']  // This will sort by priority (high to low)
+      ]
+    });
+
+    tasks.sort((a, b) => {
+      const priorityOrder = {
+        'high': 3,
+        'medium': 2,
+        'low': 1
+      };
+      
+      return priorityOrder[b.priority] - priorityOrder[a.priority];
+    });
+    
+    return res.json(tasks);
+  } catch (error) {
+    console.error('Error fetching tasks:', error);
+    res.status(500).json({ message: 'An error occurred while fetching tasks' });
+  }
+});
+
+app.post('/api/project/:id/tasks', async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    const { title, description, priority, status } = req.body;
+
+    if (!title) {
+      return res.status(400).json({ message: 'Title is required' });
+    }
+
+    const newTask = await Task.create({
+      title,
+      description,
+      priority: priority || 'medium',
+      status: status || 'to-do',
+      projectId
+    });
+
+    res.status(201).json({
+      message: 'Task created successfully',
+      task: newTask
+    });
+
+  } catch (error) {
+    console.error('Error creating task:', error);
+    res.status(500).json({message: 'An error occurred while creating the task'});
+  }
+});
+
 
 app.get("/api/user", async (req, res) => {
   // Find all users
