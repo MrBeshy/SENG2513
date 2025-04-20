@@ -99,3 +99,28 @@ app.get("/api/moon-phase", async (req, res) => {
   }
 });*/
 
+app.patch("/api/project/:id", async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    const { name, description, dueDate } = req.body;
+
+    const project = await Project.findByPk(projectId);
+
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    // Update fields (only if provided)
+    if (name !== undefined) project.name = name;
+    if (description !== undefined) project.description = description;
+    if (dueDate !== undefined) project.dueDate = dueDate;
+
+    await project.save();
+
+    return res.json(project);
+    
+  } catch (error) {
+    console.error('Error updating project:', error);
+    res.status(500).json({ message: 'An error occurred while updating the project' });
+  }
+});
