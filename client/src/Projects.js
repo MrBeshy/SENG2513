@@ -32,6 +32,29 @@ const Projects = () => {
         });
     }, []);
 
+    
+    const handleDelete = (id) => {
+        if (window.confirm("Are you sure you want to delete this project?")) {
+            console.log(`Sending DELETE request for project with id: ${id}`);
+
+            fetch(`/api/project/${id}`, {
+                method: "DELETE",
+            })
+                .then((res) => {
+                    console.log("DELETE response status:", res.status);
+                    if (!res.ok) {
+                        throw new Error(`HTTP error! Status: ${res.status}`);
+                    }
+                    // Update UI locally by filtering out the deleted project
+                    setproject((prevProjects) => prevProjects.filter((proj) => proj.id !== id));
+                })
+                .catch((error) => {
+                    console.error("Delete failed:", error);
+                });
+        }
+    };
+
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
 
@@ -48,8 +71,8 @@ const Projects = () => {
                         project.map((data) => (
                             <p className="project-instance" key={data.id}><Link to={`/project/${data.id}`} className="project-name">{data.name}</Link>
                             <div className="project-functions">
-                                <button className="edit-project"> <img src="edit-line.png" alt="edit"></img> </button>
-                                <button className="delete-project"> <img src="close-line.png" alt="delete"></img> </button></div>
+                                {/* <button className="edit-project"> <img src="edit-line.png" alt="edit"></img> </button> */}
+                                <button className="delete-project" onClick={() => handleDelete(data.id)}> <img src="close-line.png" alt="delete"></img> </button></div>
                             </p>
                     ))) : (
                         <p>No projects found.</p>
@@ -60,6 +83,8 @@ const Projects = () => {
     );
 }
 
+
+  
 
 export default Projects;
 // project for now will be just an empty link

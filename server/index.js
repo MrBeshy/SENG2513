@@ -180,3 +180,22 @@ app.patch("/api/project/:id", async (req, res) => {
     res.status(500).json({ message: 'An error occurred while updating the project' });
   }
 });
+
+app.delete('/api/project/:id', async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    const project = await Project.findByPk(projectId);
+
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    await project.destroy();
+
+    return res.status(204).send();  // Send 204 No Content on success
+
+  } catch (error) {
+    console.error('Error deleting project:', error);
+    res.status(500).json({ message: 'An error occurred while deleting the project' });
+  }
+});
