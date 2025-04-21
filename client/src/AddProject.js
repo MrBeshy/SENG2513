@@ -71,7 +71,7 @@ const AddProject = () => {
                 {message && <div className={message.includes('Error') ? 'error' : 'success'}>{message}</div>}
                 <form onSubmit={handleSubmit}>
                     <input type="text" placeholder="project name" id="name" name="name" value={formData.name} onChange={handleChange} required></input>
-                    <input type="text" placeholder="project description" id="description" name="description" value={formData.description} onChange={handleChange}></input>
+                    <textarea placeholder="project description" id="description" name="description" value={formData.description} onChange={handleChange} rows="4"></textarea>
                     <input type="date" placeholder="mm/dd/yyyy" id="dueDate" name="dueDate" value={formData.dueDate} onChange={handleChange} required></input>
                     <button type="submit" id="save-project" disabled={isLoading}>
                         {isLoading ? 'Saving...' : 'Save'}

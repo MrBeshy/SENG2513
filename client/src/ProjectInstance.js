@@ -114,7 +114,7 @@ const ProjectInstance = () => {
 
     const renderTask = (task) => (
         <div className="task-item" key={task.id}>
-            <h4>{task.title}</h4>
+            <h4><Link className="task-title">{task.title}</Link></h4>
             <p>{task.description}</p>
             <span className={`priority priority-${task.priority}`}>
                 {task.priority}
@@ -179,14 +179,11 @@ const ProjectInstance = () => {
                 <h3>Tasks:</h3>
                 {/* You can add tasks display here once you implement that feature */}
                 <div className="tasks-container">
-                    {tasks.length === 0 ? (
-                        <p>No tasks found for this project.</p>
-                    ) : (
                         <>
                             <div className="task-column">
                                 <div className="button-and-h4">
                                     <h4>To Do</h4>
-                                    <button className="add-task-btn">Add Task</button>
+                                    <button className="add-task-btn"><Link to={`/project/${id}/add-task`}>Add Task</Link></button>
                                 </div>
                                 
                                 <div className="incomplete-tasks">
@@ -220,7 +217,6 @@ const ProjectInstance = () => {
                                 </div>
                             </div>
                         </>
-                    )}
                 </div>
                 
                 <button><Link to="/" className="back-link">Back to Projects</Link></button>

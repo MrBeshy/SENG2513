@@ -11,3 +11,7 @@ client/public and client/src
     -change 'add project' button to 'add' and reposition it to the top of the page next to 'projects'.
     -change alignment of 'project name', 'edit' button, and 'delete' button.
     -name align left, edit / delete align right.
+
+!!! Important bug fixes needed !!!
+    - Date in projects is off by one day (needs fix).
+    - Tasks creation will occasionally not work when first starting the app.
