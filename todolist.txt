@@ -15,3 +15,4 @@ client/public and client/src
 !!! Important bug fixes needed !!!
     - Date in projects is off by one day (needs fix).
     - Tasks creation will occasionally not work when first starting the app.
+    - Canceling 'task add' will send user back to main screen, needs fix.

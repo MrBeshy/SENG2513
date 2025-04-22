@@ -199,3 +199,80 @@ app.delete('/api/project/:id', async (req, res) => {
     res.status(500).json({ message: 'An error occurred while deleting the project' });
   }
 });
+
+app.get("/api/project/:id/tasks/:taskId", async (req, res) => {
+  try {
+    const { id, taskId } = req.params;
+    
+    const task = await Task.findOne({
+      where: { 
+        id: taskId,
+        projectId: id 
+      }
+    });
+    
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+    
+    return res.json(task);
+  } catch (error) {
+    console.error('Error fetching task:', error);
+    res.status(500).json({ message: 'An error occurred while fetching the task' });
+  }
+});
+
+// Also add these endpoints for updating and deleting tasks
+app.patch("/api/project/:id/tasks/:taskId", async (req, res) => {
+  try {
+    const { id, taskId } = req.params;
+    const { title, description, priority, status } = req.body;
+
+    const task = await Task.findOne({
+      where: { 
+        id: taskId,
+        projectId: id 
+      }
+    });
+
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    // Update fields if provided
+    if (title !== undefined) task.title = title;
+    if (description !== undefined) task.description = description;
+    if (priority !== undefined) task.priority = priority;
+    if (status !== undefined) task.status = status;
+
+    await task.save();
+    return res.json(task);
+    
+  } catch (error) {
+    console.error('Error updating task:', error);
+    res.status(500).json({ message: 'An error occurred while updating the task' });
+  }
+});
+
+app.delete("/api/project/:id/tasks/:taskId", async (req, res) => {
+  try {
+    const { id, taskId } = req.params;
+    
+    const task = await Task.findOne({
+      where: { 
+        id: taskId,
+        projectId: id 
+      }
+    });
+    
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+    
+    await task.destroy();
+    return res.status(204).send();
+  } catch (error) {
+    console.error('Error deleting task:', error);
+    res.status(500).json({ message: 'An error occurred while deleting the task' });
+  }
+});

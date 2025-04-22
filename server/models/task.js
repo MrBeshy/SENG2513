@@ -9,6 +9,11 @@ const priorityValues = {
 };
 
 const Task = sequelize.define('task', {
+  taskId: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   title: DataTypes.STRING,
   description: DataTypes.TEXT,
   priority: {

@@ -34,7 +34,9 @@ const Projects = () => {
 
     
     const handleDelete = (id) => {
-        if (window.confirm("Are you sure you want to delete this project?")) {
+        const projectToDelete = project.find(proj => proj.id === id);
+
+        if (window.confirm(`Are you sure you want to delete the project "${projectToDelete.name}"?`)) {
             console.log(`Sending DELETE request for project with id: ${id}`);
 
             fetch(`/api/project/${id}`, {

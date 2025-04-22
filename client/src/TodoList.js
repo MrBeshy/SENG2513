@@ -5,6 +5,7 @@ import Projects from "./Projects";
 import AddProject from "./AddProject";
 import ProjectInstance from "./ProjectInstance";
 import AddTask from "./AddTask";
+import TaskInstance from "./TaskInstance";
 
 const ToDoList =() => {
     return(
@@ -17,6 +18,7 @@ const ToDoList =() => {
                     <Route path="/AddProject" element={<AddProject />} />
                     <Route path="/project/:id" element={<ProjectInstance />} />
                     <Route path="/project/:id/add-task" element={<AddTask />}/>
+                    <Route path="/project/:id/:taskId" element={<TaskInstance />}/>
                 </Routes>
             </div>
         </>
