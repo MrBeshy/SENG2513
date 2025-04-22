@@ -5,12 +5,15 @@ import React from "react";
 import { Link, Routes, Route } from "react-router-dom";
 import AddProject from "./AddProject";
 import { useEffect, useState } from "react";
+import DeleteConfirmationPopup from "./DeleteConfirmationPopup";
 
 const Projects = () => {
 
     const [project, setproject] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [projectToDelete, setProjectToDelete] = useState(null);
 
     useEffect(() => {
 
@@ -32,30 +35,30 @@ const Projects = () => {
         });
     }, []);
 
-    
     const handleDelete = (id) => {
-        const projectToDelete = project.find(proj => proj.id === id);
-
-        if (window.confirm(`Are you sure you want to delete the project "${projectToDelete.name}"?`)) {
+        if (window.confirm("Are you sure you want to delete this project?")) {
             console.log(`Sending DELETE request for project with id: ${id}`);
 
             fetch(`/api/project/${id}`, {
                 method: "DELETE",
             })
-                .then((res) => {
-                    console.log("DELETE response status:", res.status);
-                    if (!res.ok) {
-                        throw new Error(`HTTP error! Status: ${res.status}`);
-                    }
-                    // Update UI locally by filtering out the deleted project
-                    setproject((prevProjects) => prevProjects.filter((proj) => proj.id !== id));
-                })
-                .catch((error) => {
-                    console.error("Delete failed:", error);
-                });
+            .then((res) => {
+                console.log("DELETE response satus:",res.status);
+                if (!res.ok) {
+                    throw new Error(`HTTP error! Status: ${res.status}`);
+                }
+                setproject((prevProjects) => prevProjects.filter((proj) => proj.id !== id));
+                setIsPopupOpen(false);
+            })
+            .catch((error) => {
+                console.error("Delete failed:",error);
+            });
         }
     };
 
+    const handlePopupClose = () => {
+        setIsPopupOpen(false);
+    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -81,6 +84,17 @@ const Projects = () => {
                     )}
                 </div>
             </div>
+
+            <DeleteConfirmationPopup
+                isOpen={isPopupOpen}
+                onClose={handlePopupClose}
+                onConfirm={handleDeleteConfirm}
+                projectName={projectToDelete?.name}
+            
+            />
+
+
+
         </>
     );
 }
