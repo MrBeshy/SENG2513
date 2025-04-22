@@ -119,7 +119,7 @@ const ProjectInstance = () => {
             <span className={`priority priority-${task.priority}`}>
                 {task.priority}
             </span>
-            <button className="delete-task"> <img src="close-line.png" alt="delete"></img> </button>
+            <button className="delete-task"><img src="close-line.png" alt="delete"></img></button>
         </div>
     );
 
