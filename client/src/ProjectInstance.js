@@ -114,7 +114,7 @@ const ProjectInstance = () => {
 
     const renderTask = (task) => (
         <div className="task-item" key={task.id}>
-            <h4><Link to={`/project/${id}/task/${task.id}`} className="task-title">{task.title}</Link></h4>
+            <h4><Link to={`/project/${id}/${task.taskId}`} className="task-title">{task.title}</Link></h4>
             <p>{task.description}</p>
             <span className={`priority priority-${task.priority}`}>
                 {task.priority}

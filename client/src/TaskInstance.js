@@ -1,11 +1,11 @@
 //import "./TaskInstance.css";
 import React from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const TaskInstance = () => {
     const { id, taskId } = useParams(); // Get both project ID and task ID from URL
-    const navigate = useNavigate();
+    //const Navigate = useNavigate();
     const [task, setTask] = useState(null);
     const [project, setProject] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -98,7 +98,7 @@ const TaskInstance = () => {
         }
     };
 
-    const handleDeleteClick = async () => {
+    /*const handleDeleteClick = async () => {
         if (window.confirm(`Are you sure you want to delete the task "${task.title}"?`)) {
             try {
                 const response = await fetch(`/api/project/${id}/tasks/${taskId}`, {
@@ -115,7 +115,7 @@ const TaskInstance = () => {
                 setError(error.message);
             }
         }
-    };
+    };*/
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -192,7 +192,7 @@ const TaskInstance = () => {
             ) : (
                 <div className="action-buttons">
                     <button onClick={handleEditClick}>Edit</button>
-                    <button onClick={handleDeleteClick} className="delete-button">Delete</button>
+                    
                 </div>
             )}
 

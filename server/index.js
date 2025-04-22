@@ -207,7 +207,7 @@ app.get("/api/project/:id/tasks/:taskId", async (req, res) => {
     
     const task = await Task.findOne({
       where: { 
-        id: taskId,
+        taskId: taskId,
         projectId: id 
       }
     });
@@ -231,7 +231,7 @@ app.patch("/api/project/:id/tasks/:taskId", async (req, res) => {
 
     const task = await Task.findOne({
       where: { 
-        id: taskId,
+        taskId: taskId,
         projectId: id 
       }
     });
@@ -261,7 +261,7 @@ app.delete("/api/project/:id/tasks/:taskId", async (req, res) => {
     
     const task = await Task.findOne({
       where: { 
-        id: taskId,
+        taskId: taskId,
         projectId: id 
       }
     });
