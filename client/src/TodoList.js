@@ -5,6 +5,7 @@ import Projects from "./Projects";
 import AddProject from "./AddProject";
 import ProjectInstance from "./ProjectInstance";
 import AddTask from "./AddTask";
+import Calendar from "./Calendar";
 import TaskInstance from "./TaskInstance";
 
 const ToDoList =() => {

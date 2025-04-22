@@ -1,7 +1,7 @@
 // server/index.js
 
 import express from "express";
-
+import fetchMoonPhase from './api/json/moonPhase.js';
 import company from "./api/json/company.json" with {type: "json"}; // Importing JSON data from a file
 const app = express();
 import cors from "cors"; // CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
@@ -9,6 +9,7 @@ const CORS = cors();
 app.use(CORS);
 app.use(express.json());
 const PORT = 3001;
+
 import User from './models/user.js';
 // added project
 import Project from "./models/project.js";
@@ -147,7 +148,7 @@ app.get("/api/moon-phase", async (req, res) => {
   const { lat, lon } = req.query;
 
   try {
-    const data = await fetchMoonPhase(lat || '51.4768', lon || '-0.0004');
+    const data = await fetchMoonPhase();
     res.json(data);
   } catch (error) {
     console.error(error);
