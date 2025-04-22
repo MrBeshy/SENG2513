@@ -35,26 +35,40 @@ const Projects = () => {
         });
     }, []);
 
-    const handleDelete = (id) => {
-        if (window.confirm("Are you sure you want to delete this project?")) {
-            console.log(`Sending DELETE request for project with id: ${id}`);
+    
 
-            fetch(`/api/project/${id}`, {
-                method: "DELETE",
-            })
+    // Function to open the delete confirmation popup
+    const handleDelete = (id) => {
+        setProjectToDelete(id);
+        setIsPopupOpen(true); // Open the custom popup for confirmation
+    };
+
+    // Function to confirm the delete action
+    const handleDeleteConfirm = () => {
+        if (!projectToDelete) return;
+
+        console.log(`Sending DELETE request for project with id: ${projectToDelete}`);
+
+        fetch(`/api/project/${projectToDelete}`, {
+            method: "DELETE",
+        })
             .then((res) => {
-                console.log("DELETE response satus:",res.status);
+                console.log("DELETE response status:", res.status);
                 if (!res.ok) {
                     throw new Error(`HTTP error! Status: ${res.status}`);
                 }
-                setproject((prevProjects) => prevProjects.filter((proj) => proj.id !== id));
-                setIsPopupOpen(false);
+
+                // Update UI locally by filtering out the deleted project
+                setproject((prevProjects) =>
+                    prevProjects.filter((proj) => proj.id !== projectToDelete)
+                );
+                setIsPopupOpen(false); // Close the popup after confirming delete
             })
             .catch((error) => {
-                console.error("Delete failed:",error);
+                console.error("Delete failed:", error);
             });
-        }
     };
+
 
     const handlePopupClose = () => {
         setIsPopupOpen(false);
