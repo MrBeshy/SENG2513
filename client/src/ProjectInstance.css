@@ -1,0 +1,21 @@
+.task-column {
+    border: 2px solid black;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: inline-block;
+    justify-content: space-between;
+}
+
+.task-item {
+    border: 2px solid black;
+}
+
+.tasks-container {
+    display: flex;
+
+}
+
+.button-and-h4 {
+    display: flex;
+    justify-content: space-between;
+}

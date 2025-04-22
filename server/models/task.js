@@ -2,11 +2,29 @@ import { DataTypes } from 'sequelize';
 
 import sequelize from '../config/database.js';
 
+const priorityValues = {
+  'high': 3,
+  'medium': 2,
+  'low': 1
+};
+
 const Task = sequelize.define('task', {
   title: DataTypes.STRING,
   description: DataTypes.TEXT,
-  priority: DataTypes.ENUM('low','medium','high'),
-  status: DataTypes.ENUM('to-do', 'in-progress', 'completed')
+  priority: {
+    type: DataTypes.ENUM('low', 'medium', 'high'),
+    defaultValue: 'medium'
+  },
+  status: {
+    type: DataTypes.ENUM('to-do', 'in-progress', 'completed'),
+    defaultValue: 'to-do'
+  },
+  priorityOrder: {
+    type: DataTypes.VIRTUAL,
+    get() {
+      return priorityValues[this.priority] || 0;
+    }
+  }
 });
 
 Task.prototype.toJSON = function() {

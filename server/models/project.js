@@ -8,9 +8,18 @@ const Project = sequelize.define('project', {
     primaryKey: true,
     autoIncrement: true,
   },
-  name: DataTypes.STRING,
-  description: DataTypes.TEXT,
-  dueDate: DataTypes.DATE,
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false, // Required
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: true, // Make it optional
+  },
+  dueDate: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
 });
 
 Project.prototype.toJSON = function() {

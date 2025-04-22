@@ -1,4 +1,5 @@
 // server/index.js
+
 import express from "express";
 import fetchMoonPhase from './api/json/moonPhase.js';
 import company from "./api/json/company.json" with {type: "json"}; // Importing JSON data from a file
@@ -6,6 +7,7 @@ const app = express();
 import cors from "cors"; // CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
 const CORS = cors();
 app.use(CORS);
+app.use(express.json());
 const PORT = 3001;
 
 import User from './models/user.js';
@@ -31,8 +33,8 @@ app.post('/api/project', async (req, res) => {
   try {
     const { name, description, dueDate } = req.body;
 
-    if (!name || !description || !dueDate) {
-      return res.status(400).json({ message: 'Name, description, and due date are required'});
+    if (!name || !dueDate) {
+      return res.status(400).json({ message: 'Name and due date are required'});
     }
 
     const newProject = await Project.create({
@@ -51,14 +53,86 @@ app.post('/api/project', async (req, res) => {
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
       return res.status(400).json({
         message: 'Validation error',
-        errors:error.erros.map(e => ({ field: e.path, message: e.message }))
+        errors:error.errors.map(e => ({ field: e.path, message: e.message }))
       });
     }
 
     console.error('Error creating project:', error);
-    res.status(500).json({message: 'An error occurred while creating the user'});
+    res.status(500).json({message: 'An error occurred while creating the project'});
   }
 });
+
+app.get("/api/project/:id", async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    const project = await Project.findByPk(projectId);
+    
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+    
+    return res.json(project);
+  } catch (error) {
+    console.error('Error fetching project:', error);
+    res.status(500).json({ message: 'An error occurred while fetching the project' });
+  }
+});
+
+app.get("/api/project/:id/tasks", async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    const tasks = await Task.findAll({
+      where: { projectId: projectId },
+      order: [
+        ['priority', 'DESC']  // This will sort by priority (high to low)
+      ]
+    });
+
+    tasks.sort((a, b) => {
+      const priorityOrder = {
+        'high': 3,
+        'medium': 2,
+        'low': 1
+      };
+      
+      return priorityOrder[b.priority] - priorityOrder[a.priority];
+    });
+    
+    return res.json(tasks);
+  } catch (error) {
+    console.error('Error fetching tasks:', error);
+    res.status(500).json({ message: 'An error occurred while fetching tasks' });
+  }
+});
+
+app.post('/api/project/:id/tasks', async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    const { title, description, priority, status } = req.body;
+
+    if (!title) {
+      return res.status(400).json({ message: 'Title is required' });
+    }
+
+    const newTask = await Task.create({
+      title,
+      description,
+      priority: priority || 'medium',
+      status: status || 'to-do',
+      projectId
+    });
+
+    res.status(201).json({
+      message: 'Task created successfully',
+      task: newTask
+    });
+
+  } catch (error) {
+    console.error('Error creating task:', error);
+    res.status(500).json({message: 'An error occurred while creating the task'});
+  }
+});
+
 
 app.get("/api/user", async (req, res) => {
   // Find all users
@@ -69,12 +143,60 @@ app.get("/api/user", async (req, res) => {
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 // New endpoint to fetch moon phase data
-app.get('/api/moon-phase', async (req, res) => {
+/*
+app.get("/api/moon-phase", async (req, res) => {
+  const { lat, lon } = req.query;
+
   try {
     const data = await fetchMoonPhase();
     res.json(data);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch moon phase' });
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch moon phase data' });
+  }
+});*/
+
+app.patch("/api/project/:id", async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    const { name, description, dueDate } = req.body;
+
+    const project = await Project.findByPk(projectId);
+
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    // Update fields (only if provided)
+    if (name !== undefined) project.name = name;
+    if (description !== undefined) project.description = description;
+    if (dueDate !== undefined) project.dueDate = dueDate;
+
+    await project.save();
+
+    return res.json(project);
+    
+  } catch (error) {
+    console.error('Error updating project:', error);
+    res.status(500).json({ message: 'An error occurred while updating the project' });
   }
 });
 
+app.delete('/api/project/:id', async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    const project = await Project.findByPk(projectId);
+
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    await project.destroy();
+
+    return res.status(204).send();  // Send 204 No Content on success
+
+  } catch (error) {
+    console.error('Error deleting project:', error);
+    res.status(500).json({ message: 'An error occurred while deleting the project' });
+  }
+});
