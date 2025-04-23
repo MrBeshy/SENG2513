@@ -170,6 +170,20 @@ app.patch("/api/project/:id", async (req, res) => {
       return res.status(404).json({ message: 'Project not found' });
     }
 
+    if (name !== undefined && name.trim() === '') {
+      return res.status(400).json({ message: 'Project name cannot be empty' });
+    }
+    
+    if (dueDate !== undefined && !isValidDate(dueDate)) {
+      return res.status(400).json({ message: 'Invalid due date' });
+    }
+    
+    // Helper function
+    function isValidDate(dateString) {
+      const date = new Date(dateString);
+      return !isNaN(date.getTime());
+    }
+
     // Update fields (only if provided)
     if (name !== undefined) project.name = name;
     if (description !== undefined) project.description = description;

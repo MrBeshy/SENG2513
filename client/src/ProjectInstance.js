@@ -15,6 +15,10 @@ const ProjectInstance = () => {
     const [editedDescription, setEditedDescription] = useState("");
     const [editedDueDate, setEditedDueDate] = useState("");
 
+    const [isNameValid, setIsNameValid] = useState(true);
+    const [isDateValid, setIsDateValid] = useState(true);
+
+
     useEffect(() => {
         // Fetch the specific project by ID
         const fetchProjectAndTask = async () => {
@@ -63,6 +67,16 @@ const ProjectInstance = () => {
     };
 
     const handleSaveClick = () => {
+        // make sure that date and name are valid
+        if (editedName.trim() === '') {
+            setIsNameValid(false);
+            return;
+        }
+        
+        if (!editedDueDate) {
+            setIsDateValid(false);
+            return;
+        }
         const updatedProject = {
             name: editedName,
             description: editedDescription,
@@ -132,9 +146,14 @@ const ProjectInstance = () => {
                         <input
                             type="text"
                             value={editedName}
-                            onChange={(e) => setEditedName(e.target.value)}
+                            onChange={(e) => {
+                                setEditedName(e.target.value);
+                                setIsNameValid(e.target.value.trim() !== '');
+                            }}
+                            className={!isNameValid ? "invalid-input" : ""}
                             required
                         />
+                        
                     ) : (
                         `Project: ${project.name}`
                     )}
@@ -158,9 +177,14 @@ const ProjectInstance = () => {
                             <input
                                 type="date"
                                 value={editedDueDate.slice(0,10)}
-                                onChange={(e) => setEditedDueDate(e.target.value)}
+                                onChange={(e) => {
+                                    setEditedDueDate(e.target.value);
+                                    setIsDateValid(e.target.value !== '');
+                                }}
+                                className={!isDateValid ? "invalid-input" : ""}
                                 required
                             />
+                            
                         ) : (
                             project.dueDate.slice(0, 10)
                         )}
@@ -169,7 +193,7 @@ const ProjectInstance = () => {
 
                 {isEditing ? (
                     <div>
-                        <button onClick={handleSaveClick}>Save</button>
+                        <button onClick={handleSaveClick} disabled={!isNameValid || !isDateValid || editedName.trim() === '' || !editedDueDate}>Save</button>
                         <button onClick={handleCancelClick}>Cancel</button>
                     </div>
                 ) : (

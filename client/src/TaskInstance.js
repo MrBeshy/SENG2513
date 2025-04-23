@@ -18,6 +18,9 @@ const TaskInstance = () => {
     const [editedPriority, setEditedPriority] = useState("");
     const [editedStatus, setEditedStatus] = useState("");
 
+    const [isTitleValid, setIsTitleValid] = useState(true);
+    
+
     useEffect(() => {
         const fetchTaskAndProject = async () => {
             try {
@@ -71,6 +74,12 @@ const TaskInstance = () => {
 
     const handleSaveClick = async () => {
         try {
+            // check if title is valid
+            if (editedTitle.trim() === '') {
+                setIsTitleValid(false);
+                return;
+            }
+
             const updatedTask = {
                 title: editedTitle,
                 description: editedDescription,
@@ -128,7 +137,11 @@ const TaskInstance = () => {
                     <input
                         type="text"
                         value={editedTitle}
-                        onChange={(e) => setEditedTitle(e.target.value)}
+                        onChange={(e) => {
+                            setEditedTitle(e.target.value);
+                            setIsTitleValid(e.target.value.trim() !== '');
+                        }}
+                        className={!isTitleValid ? "invalid-input" : ""}
                         required
                     />
                 ) : (
@@ -186,7 +199,7 @@ const TaskInstance = () => {
 
             {isEditing ? (
                 <div className="edit-buttons">
-                    <button onClick={handleSaveClick}>Save</button>
+                    <button onClick={handleSaveClick} disabled={!isTitleValid || editedTitle.trim() === ''}>Save</button>
                     <button onClick={handleCancelClick}>Cancel</button>
                 </div>
             ) : (
