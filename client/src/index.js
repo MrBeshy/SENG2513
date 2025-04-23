@@ -1,20 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
-//import App from './App';
 import reportWebVitals from './reportWebVitals';
-// changed <App />, and changed import
 import TodoList from './TodoList';
-import Calendar from './Calendar';
+//import Calendar from './Calendar';
+import axios from 'axios';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
+const App = () => {
+  const [date, setDate] = useState('');
+
+  useEffect(() => {
+    axios.get('http://worldtimeapi.org/api/timezone/America/New_York')
+      .then((res) => {
+        const datetime = new Date(res.data.datetime).toLocaleDateString();
+        setDate(datetime);
+      })
+      .catch((err) => {
+        console.error("Error fetching time:", err);
+        setDate("Unable to load time");
+      });
+  }, []);
+
+  return (
     <div>
-      <header>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem' }}>
         <h1>To Do List App</h1>
-        <div></div>
+        <p style={{ fontWeight: 'bold' }}>{date}</p>
       </header>
       <BrowserRouter>
         <TodoList />
@@ -23,12 +35,14 @@ root.render(
         <p>&copy; 2025 To-Do List Application</p>
       </footer>
     </div>
+  );
+};
 
-
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
