@@ -5,7 +5,6 @@ client/public and client/src
 !!! Important bug fixes needed !!!
     - Tasks creation will occasionally not work when first starting the app.
     - Fix 'delete' button.
-    - Fix API issue.
 
     **not bug but still need to do**
     - display the name of the project being deleted.

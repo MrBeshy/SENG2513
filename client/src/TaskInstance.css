@@ -1,3 +1,5 @@
 .task-details-page {
     background-color: whitesmoke;
+    min-height: 500px;
+    border-radius: 8px;
 }

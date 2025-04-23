@@ -130,6 +130,7 @@
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
+    min-height: 460px;
     /* background-color: whitesmoke; */
 }
 
@@ -146,6 +147,8 @@
   .project-details-page button:hover {
     background-color: #45a049;
   }
+
+
   
   .project-details-page .back-link {
     text-decoration: none;

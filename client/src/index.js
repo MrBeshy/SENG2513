@@ -18,7 +18,7 @@ const App = () => {
       })
       .catch((err) => {
         console.error("Error fetching time:", err);
-        setDate("Unable to load time");
+        setDate("Unable to load date");
       });
   }, []);
 

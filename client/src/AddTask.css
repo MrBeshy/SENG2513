@@ -1,3 +1,5 @@
 .addTask-page {
     background-color: whitesmoke;
+    border-radius: 8px;
+    min-height: 500px;
 }
