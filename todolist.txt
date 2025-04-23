@@ -1,20 +1,13 @@
-server/models/Project.js
-    -make name and date attributres required.
-client/src
-    -TOP PRIORITY, MAKE A NAV BAR.
-    -make the add UI for project.
-    -make the edit UI for project.
-    -make the delete UI for project.
-    -possibly add the 'view' UI for projects.
 client/public and client/src
-    -change background to be light blue gradient in CSS.
-    -change 'add project' button to 'add' and reposition it to the top of the page next to 'projects'.
-    -change alignment of 'project name', 'edit' button, and 'delete' button.
-    -name align left, edit / delete align right.
+    - Add a delete feature for task.
+    - Parity between 'projects' and 'projectInstance' UI's.
 
 !!! Important bug fixes needed !!!
     - Tasks creation will occasionally not work when first starting the app.
     - Fix 'delete' button.
+    - Fix API issue.
 
     **not bug but still need to do**
-    -display the name of the project being deleted.
+    - display the name of the project being deleted.
+    - Write JES tests, minimum of 5 tests needed.
+    - Demo of project should start empty (no projects, no tasks).
