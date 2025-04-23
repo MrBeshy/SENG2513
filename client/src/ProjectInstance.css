@@ -187,6 +187,7 @@
   
   .task-title:hover {
     text-decoration: underline;
+    color: #4CAF50;
   }
   
   .project-details-page input[type="text"],
