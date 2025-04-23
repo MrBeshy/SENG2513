@@ -10,6 +10,11 @@
     cursor: pointer;
 }
 
+.add-project {
+    text-decoration: none;
+    color: black;
+}
+
 #add-project:hover {
     border-color: black;
 }
@@ -28,11 +33,11 @@
     border: 2px solid gray;
     width: 400px;
     margin: 4px;
-    background-color: lightblue;
+    background-color: rgb(216, 178, 228);
     border-radius: 5px;
 }
 
-.edit-project, .delete-project {
+.delete-project {
     
     margin-left: 5px;
     margin-right: 5px;
@@ -40,8 +45,8 @@
 }
 
 .project-name {
-    
-    color: blue;
+    text-decoration: none;
+    color: rgb(66, 66, 166);
     margin-right: 10px;
 }
 

@@ -82,7 +82,7 @@ const Projects = () => {
             <div className="projects-page">
                 <h2 className="page-title">Projects: </h2>
 
-                <button id="add-project"><Link to="/AddProject">Add Project</Link></button>
+                <button id="add-project"><Link to="/AddProject" className="add-project">Add Project</Link></button>
                 <Routes><Route path="/AddProject" element={<AddProject />}/></Routes>
 
                 <div className="projects-container">

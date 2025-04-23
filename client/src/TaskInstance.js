@@ -1,4 +1,4 @@
-//import "./TaskInstance.css";
+import "./TaskInstance.css";
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -131,7 +131,7 @@ const TaskInstance = () => {
     if (!task || !project) return <div>Task or Project not found</div>;
 
     return (
-        <div className="task-details">
+        <div className="task-details-page">
             <h2>
                 {isEditing ? (
                     <input

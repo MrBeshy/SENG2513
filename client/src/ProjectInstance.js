@@ -140,7 +140,7 @@ const ProjectInstance = () => {
 
     return(
         <>
-            <div className="project-details">
+            <div className="project-details-page">
                 <h2>
                     {isEditing ? (
                         <input

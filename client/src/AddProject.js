@@ -69,14 +69,14 @@ const AddProject = () => {
             <div className="add-project-page">
                 <h2 className="page-title">Add Project: </h2>
                 {message && <div className={message.includes('Error') ? 'error' : 'success'}>{message}</div>}
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="form">
                     <input type="text" placeholder="project name" id="name" name="name" value={formData.name} onChange={handleChange} required></input>
                     <textarea placeholder="project description" id="description" name="description" value={formData.description} onChange={handleChange} rows="4"></textarea>
                     <input type="date" placeholder="mm/dd/yyyy" id="dueDate" name="dueDate" value={formData.dueDate} onChange={handleChange} required></input>
                     <button type="submit" id="save-project" disabled={isLoading}>
                         {isLoading ? 'Saving...' : 'Save'}
                     </button>
-                    <button id="cancel"><Link to="/Projects">Cancel</Link></button>
+                    <button id="cancel"><Link to="/Projects" className="cancel">Cancel</Link></button>
 
                     <Link to="/Projects" ref={linkRef} style={{ display: 'none' }}>Navigate</Link>
 

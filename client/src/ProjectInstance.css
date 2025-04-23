@@ -19,3 +19,7 @@
     display: flex;
     justify-content: space-between;
 }
+
+.project-details-page {
+    background-color: whitesmoke;
+}
