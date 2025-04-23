@@ -88,7 +88,7 @@ const AddTask = () => {
     };
     
     const handleCancel = () => {
-        Navigate(`project/${id}`);
+        Navigate(-1);
     };
 
     return(

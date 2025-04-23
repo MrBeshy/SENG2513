@@ -66,7 +66,7 @@ const ProjectInstance = () => {
         const updatedProject = {
             name: editedName,
             description: editedDescription,
-            dueDate: editedDueDate
+            dueDate: editedDueDate + 'T12:00:00Z'
 
         };
 
@@ -102,6 +102,7 @@ const ProjectInstance = () => {
         
         return [...tasks].sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority]);
       };
+      
       
 
     const todoTasks = sortByPriority(tasks.filter(task => task.status === 'to-do'));
@@ -161,7 +162,7 @@ const ProjectInstance = () => {
                                 required
                             />
                         ) : (
-                            new Date(project.dueDate).toLocaleDateString()
+                            project.dueDate.slice(0, 10)
                         )}
                     </p>
                 </div>

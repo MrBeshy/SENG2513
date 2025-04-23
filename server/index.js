@@ -37,10 +37,13 @@ app.post('/api/project', async (req, res) => {
       return res.status(400).json({ message: 'Name and due date are required'});
     }
 
+    const dateOnly = dueDate.split('T')[0];
+    const adjustedDate = new Date(`${dateOnly}T12:00:00Z`);
+
     const newProject = await Project.create({
       name,
       description,
-      dueDate
+      dueDate: adjustedDate
     });
 
     res.status(201).json({
@@ -170,7 +173,10 @@ app.patch("/api/project/:id", async (req, res) => {
     // Update fields (only if provided)
     if (name !== undefined) project.name = name;
     if (description !== undefined) project.description = description;
-    if (dueDate !== undefined) project.dueDate = dueDate;
+    if (dueDate !== undefined) {
+      const dateOnly = dueDate.split('T')[0];
+      project.dueDate = new Date(`${dateOnly}T12:00:00Z`);
+    }
 
     await project.save();
 
