@@ -80,7 +80,7 @@ const ProjectInstance = () => {
         const updatedProject = {
             name: editedName,
             description: editedDescription,
-            dueDate: editedDueDate + 'T12:00:00Z'
+            dueDate: editedDueDate
 
         };
 
@@ -194,7 +194,7 @@ const ProjectInstance = () => {
                 {isEditing ? (
                     <div>
                         <button onClick={handleSaveClick} disabled={!isNameValid || !isDateValid || editedName.trim() === '' || !editedDueDate}>Save</button>
-                        <button onClick={handleCancelClick}>Cancel</button>
+                        <button onClick={handleCancelClick} className="cancel">Cancel</button>
                     </div>
                 ) : (
                     <div>

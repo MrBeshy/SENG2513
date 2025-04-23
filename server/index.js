@@ -193,6 +193,7 @@ app.patch("/api/project/:id", async (req, res) => {
     }
 
     await project.save();
+    return res.json(project);
 
     return res.json(project);
     
