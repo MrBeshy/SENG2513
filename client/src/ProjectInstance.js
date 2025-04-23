@@ -107,6 +107,29 @@ const ProjectInstance = () => {
             });
     };
 
+    // Add this function to your component, right after handleSaveClick or with the other handler functions
+const handleDeleteTask = (taskId) => {
+    // Show confirmation dialog
+    if (window.confirm("Are you sure you want to delete this task?")) {
+      fetch(`/api/project/${id}/tasks/${taskId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+          }
+          // If successful, update state to remove the deleted task
+          setTasks(tasks.filter(task => task.taskId !== taskId));
+        })
+        .catch((error) => {
+          setError(`Failed to delete task: ${error.message}`);
+        });
+    }
+  };
+
     const sortByPriority = (tasks) => {
         const priorityOrder = {
           'high': 3,
@@ -134,7 +157,15 @@ const ProjectInstance = () => {
             <span className={`priority priority-${task.priority}`}>
                 {task.priority}
             </span>
-            <button className="delete-task"><img src="close-line.png" alt="delete"></img></button>
+            <button 
+                className="delete-task"
+                onClick={(e) => {
+                    e.preventDefault(); // Prevent navigation if button is inside a link
+                    handleDeleteTask(task.taskId);
+                }}
+            >
+                <img src="close-line.png" alt="delete"></img>
+            </button>
         </div>
     );
 
@@ -249,6 +280,8 @@ const ProjectInstance = () => {
             </div>
         </>
     );
+
+    
 }
 
 export default ProjectInstance;
