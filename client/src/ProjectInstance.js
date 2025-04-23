@@ -80,7 +80,7 @@ const ProjectInstance = () => {
         const updatedProject = {
             name: editedName,
             description: editedDescription,
-            dueDate: editedDueDate + 'T12:00:00Z'
+            dueDate: editedDueDate
 
         };
 
