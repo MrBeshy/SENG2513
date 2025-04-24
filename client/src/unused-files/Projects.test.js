@@ -128,3 +128,4 @@ test('opens the modal, submits form, and displays new project on home screen', a
       expect(newProject).toBeInTheDocument();
   });
 
+  
