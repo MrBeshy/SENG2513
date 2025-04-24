@@ -101,6 +101,11 @@
   float: right;
   cursor: pointer;
   padding: 0;
+  background-color: red;
+}
+
+.task-item .delete-task {
+  background-color: red;
 }
 
 .delete-task img {
@@ -202,4 +207,22 @@
 
 .invalid-input {
   border: 2px solid red;
+}
+
+.delete-task {
+  background-color: #f44336; /* red */
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  float: right;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.delete-task:hover {
+  background-color: #d32f2f;
 }
