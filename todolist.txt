@@ -1,10 +1,5 @@
-client/public and client/src
-    - Add a delete feature for task.
-    - Parity between 'projects' and 'projectInstance' UI's.
-
 !!! Important bug fixes needed !!!
     - Tasks creation will occasionally not work when first starting the app.
-    - Fix 'delete' button.
 
     **not bug but still need to do**
     - display the name of the project being deleted.
