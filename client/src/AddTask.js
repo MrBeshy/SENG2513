@@ -102,9 +102,9 @@ const AddTask = () => {
                     <input type="text" classname="title" placeholder="task title" id="title" name="title" value={formData.title} onChange={handleChange} required></input>
                     <textarea classname="description" placeholder="task description" id="description" name="description" value={formData.description} onChange={handleChange}></textarea>
                     <select classname="priority" id="priority" name="priority" value={formData.priority} onChange={handleChange} required>
-                        <option value="low">Low</option>
-                        <option value="medium">Medium</option>
                         <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
                     </select>
                     <select classname="status" id="status" name="status" value={formData.status} onChange={handleChange} required>
                         <option value="to-do">To-do</option>

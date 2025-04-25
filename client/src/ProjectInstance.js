@@ -2,6 +2,10 @@ import "./ProjectInstance.css";
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import DeleteTask from "./DeleteTask"; // adjust path if needed
+
+
+
 
 const ProjectInstance = () => {
     const { id } = useParams(); // Get the project ID from the URL
@@ -17,6 +21,8 @@ const ProjectInstance = () => {
 
     const [isNameValid, setIsNameValid] = useState(true);
     const [isDateValid, setIsDateValid] = useState(true);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+const [taskToDelete, setTaskToDelete] = useState(null);
 
 
     useEffect(() => {
@@ -108,27 +114,32 @@ const ProjectInstance = () => {
     };
 
     // Add this function to your component, right after handleSaveClick or with the other handler functions
-const handleDeleteTask = (taskId) => {
-    // Show confirmation dialog
-    if (window.confirm("Are you sure you want to delete this task?")) {
-      fetch(`/api/project/${id}/tasks/${taskId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error(`HTTP error! Status: ${res.status}`);
+    const handleDeleteTask = (taskId) => {
+        setTaskToDelete(taskId);
+        setShowDeleteModal(true);
+      };
+      
+      const confirmDeleteTask = () => {
+        fetch(`/api/project/${id}/tasks/${taskToDelete}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json"
           }
-          // If successful, update state to remove the deleted task
-          setTasks(tasks.filter(task => task.taskId !== taskId));
         })
-        .catch((error) => {
-          setError(`Failed to delete task: ${error.message}`);
-        });
-    }
-  };
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error(`HTTP error! Status: ${res.status}`);
+            }
+            setTasks(tasks.filter(task => task.taskId !== taskToDelete));
+            setShowDeleteModal(false);
+            setTaskToDelete(null);
+          })
+          .catch((error) => {
+            setError(`Failed to delete task: ${error.message}`);
+            setShowDeleteModal(false);
+          });
+      };
+      
 
     const sortByPriority = (tasks) => {
         const priorityOrder = {
@@ -164,7 +175,7 @@ const handleDeleteTask = (taskId) => {
                     handleDeleteTask(task.taskId);
                 }}
             >
-                <img src="close-line.png" alt="delete"></img>
+                Delete
             </button>
         </div>
     );
@@ -278,6 +289,13 @@ const handleDeleteTask = (taskId) => {
                 
                 <button><Link to="/" className="back-link">Back to Projects</Link></button>
             </div>
+
+            <DeleteTask
+  isOpen={showDeleteModal}
+  onClose={() => setShowDeleteModal(false)}
+  onConfirm={confirmDeleteTask}
+/>
+
         </>
     );
 
