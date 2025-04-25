@@ -1,13 +1,15 @@
 // server/index.js
 
 import express from "express";
-import fetchMoonPhase from './api/json/moonPhase.js';
 import company from "./api/json/company.json" with {type: "json"}; // Importing JSON data from a file
 const app = express();
 import cors from "cors"; // CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
 const CORS = cors();
 app.use(CORS);
 app.use(express.json());
+import moonPhaseRoute from './api/json/moonPhase.js';
+import axios from 'axios';
+
 const PORT = 3001;
 
 import User from './models/user.js';
@@ -146,18 +148,20 @@ app.get("/api/user", async (req, res) => {
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 // New endpoint to fetch moon phase data
-/*
-app.get("/api/moon-phase", async (req, res) => {
-  const { lat, lon } = req.query;
-
+app.get("/api/moonphase", async (req, res) => {
   try {
-    const data = await fetchMoonPhase();
-    res.json(data);
+    const response = await axios.get('https://moon-phase.p.rapidapi.com/emoji', {
+      headers: {
+        'x-rapidapi-key': '578c9e32a7msh5081ccdc2c4b1b8p13095ejsn12e8dac804f8',
+        'x-rapidapi-host': 'moon-phase.p.rapidapi.com'
+      }
+    });
+    res.json({ emoji: response.data.emoji });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to fetch moon phase data' });
+    console.error('Moon phase error:', error.message);
+    res.status(500).json({ emoji: '🌕', error: 'Failed to fetch moon phase' });
   }
-});*/
+});
 
 app.patch("/api/project/:id", async (req, res) => {
   try {
@@ -298,3 +302,5 @@ app.delete("/api/project/:id/tasks/:taskId", async (req, res) => {
     res.status(500).json({ message: 'An error occurred while deleting the task' });
   }
 });
+
+app.use('/api/moonphase', moonPhaseRoute);
