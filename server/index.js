@@ -7,7 +7,7 @@ import cors from "cors"; // CORS is a node.js package for providing a Connect/Ex
 const CORS = cors();
 app.use(CORS);
 app.use(express.json());
-import moonPhaseRoute from './api/json/moonPhase.js';
+// import moonPhaseRoute from './api/json/moonPhase.js';
 import axios from 'axios';
 
 const PORT = 3001;
@@ -147,8 +147,8 @@ app.get("/api/user", async (req, res) => {
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
-// New endpoint to fetch moon phase data
-app.get("/api/moonphase", async (req, res) => {
+// New endpoint to fetch moon phase data, Archived
+/*app.get("/api/moonphase", async (req, res) => {
   try {
     const response = await axios.get('https://moon-phase.p.rapidapi.com/emoji', {
       headers: {
@@ -161,7 +161,7 @@ app.get("/api/moonphase", async (req, res) => {
     console.error('Moon phase error:', error.message);
     res.status(500).json({ emoji: '🌕', error: 'Failed to fetch moon phase' });
   }
-});
+});*/
 
 app.patch("/api/project/:id", async (req, res) => {
   try {
@@ -303,4 +303,19 @@ app.delete("/api/project/:id/tasks/:taskId", async (req, res) => {
   }
 });
 
-app.use('/api/moonphase', moonPhaseRoute);
+app.get('/api/weather', async (req, res) => {
+  try {
+    const city = req.query.city || 'London'; // Default city if none provided
+    const apiKey = '2f5b8182e937da964a66eb05dc5daa83';
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
+
+    const response = await axios.get(url);
+    const { temp } = response.data.main;
+    const description = response.data.weather[0].description;
+
+    res.json({ temp, description });
+  } catch (error) {
+    console.error('Weather API error:', error.message);
+    res.status(500).json({ error: 'Failed to fetch weather' });
+  }
+});

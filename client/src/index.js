@@ -8,43 +8,46 @@ import axios from 'axios';
 
 const App = () => {
   const [date, setDate] = useState('');
-  const [moonEmoji, setMoonEmoji] = useState('');
-  const [moonPhase, setMoonPhase] = useState('');
+  const [weather, setWeather] = useState({ temp: '', description: '' });
 
   useEffect(() => {
-    // Get the date
-    axios.get('https://worldtimeapi.org/api/timezone/Europe/London')
-      .then(res => {
-        const formatted = new Date(res.data.datetime).toLocaleDateString('en-GB', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        });
-        setDate(formatted);
-      })
-      .catch(err => {
-        console.error("Failed to get date:", err);
-        setDate("Unavailable");
+    axios.get('https://worldtimeapi.org/api/timezone/America/Chicago')
+    .then(res => {
+      const dateOnly = new Date(res.data.datetime).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
       });
-
-    // Get moon data from your server
-    axios.get('/api/json/moonphase')
+      setDate(dateOnly);
+    })
+    .catch(err => {
+      console.error("Failed to get date:", err);
+      setDate("Unavailable");
+    });
+  
+    axios.get('/api/weather?city=Nashville')
       .then(res => {
-        setMoonEmoji(res.data.emoji);
-        setMoonPhase(res.data.phase);
+        console.log(res.data); // optional
+        setWeather({
+          temp: res.data.temp,
+          description: res.data.description
+        });
       })
-      .catch(err => {
-        console.error("Moon API error:", err);
-        setMoonEmoji("🌕");
-        setMoonPhase("Unknown");
+      .catch(() => {
+        setWeather({
+          temp: 'N/A',
+          description: 'Unavailable'
+        });
       });
   }, []);
+  
 
   return (
     <div>
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem' }}>
         <h1>To Do List App</h1>
-        <p style={{ fontWeight: 'bold' }}>{date} {moonEmoji} ({moonPhase})</p>
+        <p style={{ fontWeight: 'bold' }}>{date}<br></br> {weather.temp}°F and {weather.description}</p>
+        
       </header>
       <BrowserRouter>
         <TodoList />
