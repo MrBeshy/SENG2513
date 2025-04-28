@@ -128,4 +128,72 @@ test('opens the modal, submits form, and displays new project on home screen', a
       expect(newProject).toBeInTheDocument();
   });
 
+// Test for deleting a project
+test('deletes a project when delete button is clicked', async () => {
+  // Setup mock data
+  const mockProjects = Array.from({ length: 3 }, (_, i) => ({
+    id: i + 1,
+    name: `Project ${i + 1}`,
+  }));
+
+  let currentProjects = [...mockProjects];
+
+  // Mock fetch for both GET and DELETE requests
+  global.fetch = jest.fn((url, options) => {
+    // GET request to fetch projects
+    if (!options || options.method === 'GET') {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(currentProjects),
+      });
+    }
+    
+    // DELETE request
+    if (options && options.method === 'DELETE') {
+      const projectId = Number(url.split('/').pop());
+      currentProjects = currentProjects.filter(project => project.id !== projectId);
+      return Promise.resolve({
+        ok: true,
+        status: 204,
+        json: () => Promise.resolve({}),
+      });
+    }
+  });
+
+  // Render the component
+  render(
+    <MemoryRouter>
+      <Projects />
+    </MemoryRouter>
+  );
+
+  // Wait for projects to load
+  await waitFor(() => {
+    expect(screen.getByText('Project 1')).toBeInTheDocument();
+  });
   
+  // Find all delete buttons (close-line.png images)
+  const deleteButtons = screen.getAllByAltText('delete');
+  
+  // Click the delete button for the first project
+  userEvent.click(deleteButtons[0]);
+  
+  // Confirm the delete popup appears
+  const confirmButton = await screen.findByRole('button', { name: /yes, delete/i });
+  expect(confirmButton).toBeInTheDocument();
+  
+  // Click the confirm delete button
+  userEvent.click(confirmButton);
+  
+  // Verify the project is no longer in the list
+  await waitFor(() => {
+    expect(screen.queryByText('Project 1')).not.toBeInTheDocument();
+    expect(screen.getByText('Project 2')).toBeInTheDocument();
+    expect(screen.getByText('Project 3')).toBeInTheDocument();
+  });
+  
+  // Verify the DELETE request was called with the correct URL
+  expect(global.fetch).toHaveBeenCalledWith('/api/project/1', expect.objectContaining({
+    method: 'DELETE'
+  }));
+});

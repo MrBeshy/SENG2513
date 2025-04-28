@@ -14,7 +14,8 @@ const syncModels = async () => {
     } catch (error) {
       console.error('Error synchronizing models:', error);
     }
-
+    
+    /*
     // Generate 10 projects
     const project = [];
     for (let i = 1; i <= 10; i++) {
@@ -23,8 +24,9 @@ const syncModels = async () => {
             description: `This is a description for project ${i}. It contains details about what this project entails.`,
             dueDate: new Date(Date.now() + (i * 7 * 24 * 60 * 60 * 1000)), // Due date i weeks from now
         });
-    }
+    }*/
 
+    /*
      // Insert projects into the table
      try {
         await Project.bulkCreate(project);
@@ -36,14 +38,15 @@ const syncModels = async () => {
         console.error('Error inserting projects:', error);
     }
 
-    /*// Insert projects into the table
+    // Insert projects into the table
     Project.bulkCreate(project)
         .then(() => {
             console.log('Projects inserted successfully.');
         })
         .catch((error) => {
             console.error('Error inserting projects:', error);
-        });*/
+        });
+    */
 
     // Generate 10 users
     const users = [];
@@ -66,7 +69,7 @@ const syncModels = async () => {
         
   };
 
-  //
+  /*
   async function createTasksForProjects() {
     try {
         // Get all projects
@@ -75,7 +78,7 @@ const syncModels = async () => {
         // Create tasks for each project
         for (const project of projects) {
             const tasks = [];
-            
+            /*
             // Create 2 "to-do" tasks
             for (let i = 1; i <= 2; i++) {
                 tasks.push({
@@ -116,7 +119,7 @@ const syncModels = async () => {
     } catch (error) {
         console.error('Error creating tasks:', error);
     }
-}
+}*/
 
   export {
     sequelize, Project, Task, syncModels
