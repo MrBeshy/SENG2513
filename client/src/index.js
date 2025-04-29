@@ -53,7 +53,7 @@ const App = () => {
         <TodoList />
       </BrowserRouter>
       <footer>
-        <p>&copy; 2025 To-Do List Application</p>
+        <p>&copy; 2025 BeshoyChristianTimothy.inc</p>
       </footer>
     </div>
   );
